@@ -5,6 +5,7 @@ import com.example.Notification_Service.Domain.EmailMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.retry.annotation.Retryable;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
+@Primary
 public class JavaMailEmailProvider implements EmailSender {
 
     private static final Logger logger = LoggerFactory.getLogger(JavaMailEmailProvider.class);

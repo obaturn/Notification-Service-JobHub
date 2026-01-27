@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -38,8 +39,9 @@ public class KafkaEventListener {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "user-events", groupId = "notification-service")
-    public void onUserRegistered(String message) {
+    @KafkaListener(topics = "user-events", groupId = "notification-service",
+                   containerFactory = "manualAckContainerFactory")
+    public void onUserRegistered(String message, Acknowledgment ack) {
         try {
             UserRegisteredEvent event = objectMapper.readValue(message, UserRegisteredEvent.class);
             logger.info("Received UserRegistered event for userId: {}", event.userId());
@@ -57,11 +59,18 @@ public class KafkaEventListener {
 
                 sendVerificationEmailUseCase.sendVerificationEmail(emailData, event.userId());
                 logger.info("Verification email sent for userId: {}", event.userId());
+
+                // Acknowledge successful processing
+                ack.acknowledge();
+                logger.debug("Message acknowledged for userId: {}", event.userId());
             } else {
                 logger.warn("Unknown event type: {}", event.eventType());
+                // Acknowledge even for unknown events to avoid reprocessing
+                ack.acknowledge();
             }
         } catch (Exception e) {
             logger.error("Error processing Kafka message: {}", e.getMessage(), e);
+            // Don't acknowledge - let the error handler retry or send to DLT
             throw new RuntimeException("Error processing Kafka message", e);
         }
     }

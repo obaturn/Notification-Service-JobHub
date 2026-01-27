@@ -12,6 +12,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
+@ConditionalOnProperty(value = "sendgrid.api.key")
 public class SendGridEmailProvider implements EmailSender {
 
     private static final Logger logger = LoggerFactory.getLogger(SendGridEmailProvider.class);

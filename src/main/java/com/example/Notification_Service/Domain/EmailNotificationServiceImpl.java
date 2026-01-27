@@ -42,7 +42,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
                     }
 
                     .header {
-                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        background: linear-gradient(135deg, #667eea 0%%, #764ba2 100%%);
                         padding: 40px 30px;
                         text-align: center;
                         color: white;
@@ -100,7 +100,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
                     .cta-button {
                         display: inline-block;
                         padding: 14px 40px;
-                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        background: linear-gradient(135deg, #667eea 0%%, #764ba2 100%%);
                         color: white;
                         text-decoration: none;
                         border-radius: 6px;
@@ -241,7 +241,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
                         .cta-button {
                             display: block;
-                            width: 100%;
+                            width: 100%%;
                         }
 
                         .footer {
@@ -287,7 +287,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
                         <!-- Expiration Warning -->
                         <div class="warning">
-                            ⏰ This verification link will expire in %s hours. Please verify your email soon.
+                            ⏰ This verification link will expire in %d hours. Please verify your email soon.
                         </div>
 
                         <!-- Features Section -->
