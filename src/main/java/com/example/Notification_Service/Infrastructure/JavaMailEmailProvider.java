@@ -2,6 +2,7 @@ package com.example.Notification_Service.Infrastructure;
 
 import com.example.Notification_Service.Application.ports.EmailSender;
 import com.example.Notification_Service.Domain.EmailMessage;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +36,7 @@ public class JavaMailEmailProvider implements EmailSender {
     }
 
     @Override
+    @CircuitBreaker(name = "emailService", fallbackMethod = "sendEmailFallback")
     @Retryable(value = RuntimeException.class, maxAttempts = 3)
     public void sendEmail(EmailMessage emailMessage) {
         logger.info("Attempting to send email to userId: {}", emailMessage.userId());
@@ -61,5 +63,19 @@ public class JavaMailEmailProvider implements EmailSender {
         } finally {
             logRepository.ifPresent(repo -> repo.save(log));
         }
+    }
+
+    /**
+     * Fallback method called when circuit breaker is OPEN
+     * Logs the failure and continues without throwing exception
+     */
+    public void sendEmailFallback(EmailMessage emailMessage, Throwable throwable) {
+        logger.warn("Circuit breaker is OPEN for email service. Skipping email send for userId: {} due to: {}",
+                   emailMessage.userId(), throwable.getMessage());
+
+        // Still log the attempt as failed
+        EmailSendLog log = new EmailSendLog(null, emailMessage.userId(), emailMessage.to(), false,
+                                          "Circuit breaker open: " + throwable.getMessage(), LocalDateTime.now());
+        logRepository.ifPresent(repo -> repo.save(log));
     }
 }

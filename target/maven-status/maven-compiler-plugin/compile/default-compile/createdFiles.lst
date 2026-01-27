@@ -1,0 +1,16 @@
+com/example/Notification_Service/Infrastructure/SendGridEmailProvider.class
+com/example/Notification_Service/Application/usecases/SendVerificationEmailUseCase.class
+com/example/Notification_Service/Domain/EmailNotificationServiceImpl.class
+com/example/Notification_Service/Presentation/KafkaEventListener.class
+com/example/Notification_Service/Infrastructure/EmailSendLog.class
+com/example/Notification_Service/Infrastructure/EmailSendLogRepository.class
+com/example/Notification_Service/NotificationServiceApplication.class
+com/example/Notification_Service/Application/ports/EmailSender.class
+com/example/Notification_Service/Domain/UserRegisteredEvent.class
+com/example/Notification_Service/Domain/VerificationEmailData.class
+com/example/Notification_Service/Application/usecases/SendVerificationEmailUseCaseImpl.class
+com/example/Notification_Service/Domain/EmailNotificationService.class
+com/example/Notification_Service/Infrastructure/EmailCircuitBreakerConfig.class
+com/example/Notification_Service/Infrastructure/KafkaConfig.class
+com/example/Notification_Service/Infrastructure/JavaMailEmailProvider.class
+com/example/Notification_Service/Domain/EmailMessage.class

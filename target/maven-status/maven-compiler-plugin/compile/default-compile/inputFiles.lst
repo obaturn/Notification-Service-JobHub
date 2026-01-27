@@ -1,0 +1,16 @@
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Application/ports/EmailSender.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Application/usecases/SendVerificationEmailUseCase.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Application/usecases/SendVerificationEmailUseCaseImpl.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/EmailMessage.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/EmailNotificationService.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/EmailNotificationServiceImpl.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/UserRegisteredEvent.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/VerificationEmailData.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Infrastructure/EmailCircuitBreakerConfig.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Infrastructure/EmailSendLog.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Infrastructure/EmailSendLogRepository.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Infrastructure/JavaMailEmailProvider.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Infrastructure/KafkaConfig.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Infrastructure/SendGridEmailProvider.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/NotificationServiceApplication.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Presentation/KafkaEventListener.java
