@@ -1,6 +1,10 @@
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Application/ports/EmailSender.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Application/usecases/SendCongratulationsEmailUseCase.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Application/usecases/SendCongratulationsEmailUseCaseImpl.java
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Application/usecases/SendVerificationEmailUseCase.java
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Application/usecases/SendVerificationEmailUseCaseImpl.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/ApplicationEmailData.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/ApplicationEventData.java
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/EmailMessage.java
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/EmailNotificationService.java
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Domain/EmailNotificationServiceImpl.java
@@ -13,4 +17,5 @@
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Infrastructure/KafkaConfig.java
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Infrastructure/SendGridEmailProvider.java
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/NotificationServiceApplication.java
+/home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Presentation/ApplicationEventConsumer.java
 /home/obaturn/Downloads/Notification-Service/src/main/java/com/example/Notification_Service/Presentation/KafkaEventListener.java

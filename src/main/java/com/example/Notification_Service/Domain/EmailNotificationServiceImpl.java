@@ -329,4 +329,271 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
         return new EmailMessage(data.getEmail(), subject, htmlBody, userId);
     }
+
+    @Override
+    public EmailMessage composeCongratulationsEmail(ApplicationEmailData data, String userId) {
+        String subject = String.format("🎉 Application Submitted! %s at %s", data.jobTitle(), data.companyName());
+
+        String htmlBody = String.format("""
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Application Submitted - %s</title>
+                <style>
+                    * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                    }
+
+                    body {
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                        font-size: 14px;
+                        line-height: 1.6;
+                        color: #333;
+                        background-color: #f4f4f4;
+                        padding: 20px;
+                    }
+
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background-color: #ffffff;
+                        border-radius: 12px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        overflow: hidden;
+                    }
+
+                    .header {
+                        background: linear-gradient(135deg, #0061f2 0%%, #00c6f7 100%%);
+                        padding: 30px 40px;
+                        text-align: center;
+                    }
+
+                    .header img {
+                        display: block;
+                        margin: 0 auto;
+                        width: 120px;
+                    }
+
+                    .header p {
+                        color: rgba(255, 255, 255, 0.9);
+                        font-size: 14px;
+                        margin: 10px 0 0 0;
+                    }
+
+                    .content {
+                        padding: 40px;
+                    }
+
+                    .congrats-header {
+                        text-align: center;
+                        padding-bottom: 20px;
+                    }
+
+                    .congrats-header .emoji {
+                        font-size: 48px;
+                    }
+
+                    .congrats-header h1 {
+                        color: #1a1a1a;
+                        font-size: 24px;
+                        margin: 15px 0 0 0;
+                        font-weight: 600;
+                    }
+
+                    .congrats-header p {
+                        color: #666666;
+                        font-size: 16px;
+                        margin: 10px 0 0 0;
+                    }
+
+                    .details-card {
+                        background-color: #f8f9fa;
+                        border-radius: 12px;
+                        margin-top: 25px;
+                        padding: 25px;
+                    }
+
+                    .details-card h2 {
+                        color: #0061f2;
+                        font-size: 18px;
+                        margin: 0 0 20px 0;
+                        font-weight: 600;
+                    }
+
+                    .detail-row {
+                        padding: 10px 0;
+                        border-bottom: 1px solid #e9ecef;
+                    }
+
+                    .detail-row:last-child {
+                        border-bottom: none;
+                    }
+
+                    .detail-label {
+                        color: #666666;
+                        font-size: 14px;
+                    }
+
+                    .detail-value {
+                        color: #1a1a1a;
+                        font-size: 16px;
+                        font-weight: 500;
+                        margin-top: 4px;
+                    }
+
+                    .next-steps {
+                        background-color: #e8f5e9;
+                        border-left: 4px solid #4caf50;
+                        padding: 15px 20px;
+                        border-radius: 0 8px 8px 0;
+                        margin-top: 30px;
+                    }
+
+                    .next-steps p {
+                        color: #2e7d32;
+                        font-size: 14px;
+                        margin: 0;
+                    }
+
+                    .cta-section {
+                        margin-top: 30px;
+                        text-align: center;
+                    }
+
+                    .cta-button {
+                        display: inline-block;
+                        background: linear-gradient(135deg, #0061f2 0%%, #00c6f7 100%%);
+                        color: #ffffff;
+                        text-decoration: none;
+                        padding: 14px 32px;
+                        border-radius: 8px;
+                        font-size: 16px;
+                        font-weight: 600;
+                    }
+
+                    .footer {
+                        margin-top: 40px;
+                        padding-top: 20px;
+                        border-top: 1px solid #e9ecef;
+                        text-align: center;
+                    }
+
+                    .footer p {
+                        color: #999999;
+                        font-size: 12px;
+                        margin: 0;
+                    }
+
+                    .footer p:not(:first-child) {
+                        margin-top: 10px;
+                    }
+
+                    .footer a {
+                        color: #0061f2;
+                        text-decoration: none;
+                    }
+
+                    @media only screen and (max-width: 600px) {
+                        .container {
+                            margin: 0;
+                            border-radius: 0;
+                        }
+
+                        .header {
+                            padding: 20px;
+                        }
+
+                        .content {
+                            padding: 20px;
+                        }
+
+                        .cta-button {
+                            display: block;
+                            width: 100%%;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <!-- Header with JobHub Logo -->
+                    <div class="header">
+                        <img src="%s" alt="%s Logo" width="120">
+                        <p>Your Professional Job Marketplace</p>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="content">
+                        <!-- Congratulation Header -->
+                        <div class="congrats-header">
+                            <span class="emoji">🎉</span>
+                            <h1>Congratulations!</h1>
+                            <p>Your application has been submitted successfully</p>
+                        </div>
+
+                        <!-- Application Details Card -->
+                        <div class="details-card">
+                            <h2>📋 Application Details</h2>
+
+                            <div class="detail-row">
+                                <div class="detail-label">Job Title</div>
+                                <div class="detail-value">%s</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div class="detail-label">Company</div>
+                                <div class="detail-value">%s</div>
+                            </div>
+
+                            <div class="detail-row">
+                                <div class="detail-label">Applied On</div>
+                                <div class="detail-value">%s</div>
+                            </div>
+                        </div>
+
+                        <!-- Next Steps -->
+                        <div class="next-steps">
+                            <p>✅ <strong>Next Steps:</strong> The company will review your application and get back to you soon. Keep an eye on your email and %s notifications!</p>
+                        </div>
+
+                        <!-- CTA Button -->
+                        <div class="cta-section">
+                            <a href="%s" class="cta-button">
+                                View Application Status
+                            </a>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="footer">
+                            <p>Good luck with your application! 🍀</p>
+                            <p>© 2026 %s. All rights reserved.</p>
+                            <p>
+                                <a href="%s">Unsubscribe</a> |
+                                <a href="%s">Privacy Policy</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """,
+            data.appName(),
+            data.appLogoUrl(),
+            data.appName(),
+            data.jobTitle(),
+            data.companyName(),
+            data.appliedDate(),
+            data.appName(),
+            data.getApplicationStatusLink(),
+            data.appName(),
+            data.unsubscribeUrl(),
+            data.privacyUrl()
+        );
+
+        return new EmailMessage(data.applicantEmail(), subject, htmlBody, userId);
+    }
 }

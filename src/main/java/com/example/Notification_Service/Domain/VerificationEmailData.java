@@ -1,5 +1,8 @@
 package com.example.Notification_Service.Domain;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 public class VerificationEmailData {
     private String firstName;
     private String email;
@@ -26,7 +29,7 @@ public class VerificationEmailData {
     }
 
     public String getVerificationLink() {
-        return appUrl + "/verify-email?token=" + verificationToken;
+        return appUrl + "/verify-email?token=" + (verificationToken != null ? verificationToken : "");
     }
 
     // Getters and setters
