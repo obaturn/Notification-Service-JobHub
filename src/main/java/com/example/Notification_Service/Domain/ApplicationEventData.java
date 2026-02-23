@@ -29,4 +29,11 @@ public record ApplicationEventData(
     public boolean isApplicationSubmitted() {
         return "APPLICATION_SUBMITTED".equals(eventType);
     }
+
+    /**
+     * Check if this is a resume viewed event
+     */
+    public boolean isResumeViewed() {
+        return "RESUME_VIEWED".equals(eventType);
+    }
 }

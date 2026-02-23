@@ -596,4 +596,376 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
         return new EmailMessage(data.applicantEmail(), subject, htmlBody, userId);
     }
+
+    @Override
+    public EmailMessage composeResumeViewedEmail(ResumeViewedEmailData data, String userId) {
+        String subject = String.format("👀 %s viewed your resume for %s at %s", data.companyName(), data.jobTitle(), data.companyName());
+
+        String htmlBody = String.format("""
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Resume Viewed - %s</title>
+                <style>
+                    * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                    }
+
+                    body {
+                        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                        font-size: 14px;
+                        line-height: 1.6;
+                        color: #333;
+                        background-color: #f4f4f4;
+                        padding: 20px;
+                    }
+
+                    .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        background-color: #ffffff;
+                        border-radius: 12px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        overflow: hidden;
+                    }
+
+                    .header {
+                        background: linear-gradient(135deg, #0D8ABC 0%%, #0a6a8f 100%%);
+                        padding: 30px 40px;
+                        text-align: center;
+                    }
+
+                    .logo {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        margin-bottom: 10px;
+                    }
+
+                    .logo svg {
+                        width: 40px;
+                        height: 40px;
+                    }
+
+                    .logo-text {
+                        font-size: 28px;
+                        font-weight: 700;
+                        color: #ffffff;
+                    }
+
+                    .header p {
+                        color: rgba(255, 255, 255, 0.9);
+                        font-size: 14px;
+                        margin: 5px 0 0 0;
+                    }
+
+                    .content {
+                        padding: 40px;
+                    }
+
+                    .notification-badge {
+                        display: inline-block;
+                        background-color: #e3f2fd;
+                        color: #0D8ABC;
+                        padding: 6px 14px;
+                        border-radius: 20px;
+                        font-size: 12px;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        margin-bottom: 20px;
+                    }
+
+                    .viewed-header {
+                        text-align: center;
+                        padding-bottom: 25px;
+                        border-bottom: 1px solid #e9ecef;
+                    }
+
+                    .viewed-header .eye-emoji {
+                        font-size: 48px;
+                        display: block;
+                        margin-bottom: 10px;
+                    }
+
+                    .viewed-header h1 {
+                        color: #1a1a1a;
+                        font-size: 24px;
+                        margin: 0;
+                        font-weight: 600;
+                    }
+
+                    .viewed-header p {
+                        color: #666666;
+                        font-size: 16px;
+                        margin: 10px 0 0 0;
+                    }
+
+                    .company-card {
+                        background-color: #f8f9fa;
+                        border-radius: 12px;
+                        padding: 25px;
+                        margin-top: 30px;
+                        border-left: 4px solid #0D8ABC;
+                    }
+
+                    .company-name {
+                        font-size: 20px;
+                        font-weight: 600;
+                        color: #1a1a1a;
+                        margin-bottom: 5px;
+                    }
+
+                    .job-title {
+                        font-size: 16px;
+                        color: #0D8ABC;
+                        font-weight: 500;
+                        margin-bottom: 15px;
+                    }
+
+                    .viewed-date {
+                        font-size: 13px;
+                        color: #888;
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                    }
+
+                    .viewed-stats {
+                        display: flex;
+                        gap: 20px;
+                        margin-top: 20px;
+                        padding-top: 20px;
+                        border-top: 1px solid #e9ecef;
+                    }
+
+                    .stat-item {
+                        text-align: center;
+                        flex: 1;
+                    }
+
+                    .stat-number {
+                        font-size: 24px;
+                        font-weight: 700;
+                        color: #0D8ABC;
+                    }
+
+                    .stat-label {
+                        font-size: 12px;
+                        color: #888;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+
+                    .tips-section {
+                        background-color: #fff3e0;
+                        border-radius: 12px;
+                        padding: 20px;
+                        margin-top: 30px;
+                    }
+
+                    .tips-title {
+                        color: #e65100;
+                        font-size: 14px;
+                        font-weight: 600;
+                        margin-bottom: 12px;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+
+                    .tips-list {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    .tips-list li {
+                        color: #5d4037;
+                        font-size: 13px;
+                        padding: 6px 0;
+                        padding-left: 20px;
+                        position: relative;
+                    }
+
+                    .tips-list li:before {
+                        content: "✓";
+                        position: absolute;
+                        left: 0;
+                        color: #4caf50;
+                        font-weight: bold;
+                    }
+
+                    .cta-section {
+                        margin-top: 30px;
+                        text-align: center;
+                    }
+
+                    .cta-button {
+                        display: inline-block;
+                        background: linear-gradient(135deg, #0D8ABC 0%%, #0a6a8f 100%%);
+                        color: #ffffff;
+                        text-decoration: none;
+                        padding: 14px 32px;
+                        border-radius: 8px;
+                        font-size: 16px;
+                        font-weight: 600;
+                    }
+
+                    .cta-button:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(13, 138, 188, 0.4);
+                    }
+
+                    .footer {
+                        margin-top: 40px;
+                        padding-top: 20px;
+                        border-top: 1px solid #e9ecef;
+                        text-align: center;
+                    }
+
+                    .footer p {
+                        color: #999999;
+                        font-size: 12px;
+                        margin: 0;
+                    }
+
+                    .footer p:not(:first-child) {
+                        margin-top: 10px;
+                    }
+
+                    .footer a {
+                        color: #0D8ABC;
+                        text-decoration: none;
+                    }
+
+                    @media only screen and (max-width: 600px) {
+                        .container {
+                            border-radius: 0;
+                        }
+
+                        .header {
+                            padding: 25px 20px;
+                        }
+
+                        .content {
+                            padding: 25px 20px;
+                        }
+
+                        .viewed-stats {
+                            flex-direction: column;
+                            gap: 15px;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <!-- Header with JobHub Logo -->
+                    <div class="header">
+                        <div class="logo">
+                            <!-- Briefcase Icon SVG -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ffffff" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            <span class="logo-text">JobHub</span>
+                        </div>
+                        <p>Your professional job marketplace</p>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="content">
+                        <!-- Notification Badge -->
+                        <div class="notification-badge">
+                            📋 Resume Activity
+                        </div>
+
+                        <!-- Viewed Header -->
+                        <div class="viewed-header">
+                            <span class="eye-emoji">👀</span>
+                            <h1>Your Resume Was Viewed!</h1>
+                            <p>%s, great news! %s has reviewed your application.</p>
+                        </div>
+
+                        <!-- Company Card -->
+                        <div class="company-card">
+                            <div class="company-name">%s</div>
+                            <div class="job-title">%s</div>
+                            <div class="viewed-date">
+                                <span>📅</span>
+                                <span>Viewed on %s</span>
+                            </div>
+
+                            <!-- Stats -->
+                            <div class="viewed-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number">1</div>
+                                    <div class="stat-label">Views</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">%s</div>
+                                    <div class="stat-label">Applications</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number">Active</div>
+                                    <div class="stat-label">Status</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tips Section -->
+                        <div class="tips-section">
+                            <div class="tips-title">💡 Quick Tips to Boost Your Chances</div>
+                            <ul class="tips-list">
+                                <li>Follow up with the employer after they view your resume</li>
+                                <li>Keep your profile updated with your latest skills</li>
+                                <li>Customize your cover letter for this position</li>
+                                <li>Prepare for potential interview questions</li>
+                            </ul>
+                        </div>
+
+                        <!-- CTA Button -->
+                        <div class="cta-section">
+                            <a href="%s" class="cta-button">
+                                View Application Status
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer">
+                        <p>You're receiving this email because you applied for a job on %s</p>
+                        <p>
+                            <a href="%s">Privacy Policy</a> | 
+                            <a href="%s">Terms of Service</a> | 
+                            <a href="%s">Unsubscribe</a>
+                        </p>
+                        <p>© 2026 %s. All rights reserved.</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """,
+            data.appName(),
+            data.applicantName(),
+            data.companyName(),
+            data.companyName(),
+            data.jobTitle(),
+            data.viewedDate(),
+            data.companyName(),
+            data.getApplicationStatusLink(),
+            data.appName(),
+            data.privacyUrl(),
+            data.appUrl(),
+            data.unsubscribeUrl(),
+            data.appName()
+        );
+
+        return new EmailMessage(data.applicantEmail(), subject, htmlBody, userId);
+    }
 }

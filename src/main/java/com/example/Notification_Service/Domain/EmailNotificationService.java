@@ -4,4 +4,6 @@ public interface EmailNotificationService {
     EmailMessage composeVerificationEmail(VerificationEmailData data, String userId);
     
     EmailMessage composeCongratulationsEmail(ApplicationEmailData data, String userId);
+    
+    EmailMessage composeResumeViewedEmail(ResumeViewedEmailData data, String userId);
 }
